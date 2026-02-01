@@ -73,7 +73,7 @@ http://localhost:5000
 That's it. The server starts on port `5000` by default. If that port is taken, set the `PORT` environment variable:
 
 ```bash
-PORT=8000 python main.py
+PORT=5000 python main.py
 ```
 
 ### Deploy to Liara
