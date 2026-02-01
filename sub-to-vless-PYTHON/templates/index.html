@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Convert VLESS subscriptions to individual configs easily">
+    <title>VLESS Converter Pro - Made By Valtor</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <div>
+                    <h1>VLESS Converter Pro</h1>
+                    <span class="version">v2.0</span>
+                </div>
+            </div>
+            <p class="subtitle">Professional subscription converter with advanced features</p>
+        </header>
+
+        <div class="input-section">
+            <div class="input-wrapper">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="subscriptionUrl" 
+                        placeholder="Enter your subscription URL..."
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                    >
+                    <span class="input-icon">🔗</span>
+                </div>
+                <button id="convertBtn" class="btn-primary">
+                    <span class="btn-text">Convert</span>
+                    <span class="btn-loader"></span>
+                </button>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="options-toggle">
+                <button id="optionsBtn" class="btn-options">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m5.2-14.8l-4.2 4.2m0 7.2l4.2 4.2M23 12h-6m-6 0H1m14.8 5.2l-4.2-4.2m0-7.2l4.2-4.2"></path>
+                    </svg>
+                    <span>Advanced Settings</span>
+                    <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="optionsPanel" class="options-panel">
+                <div class="option-item">
+                    <label>
+                        <input type="text" id="customPrefix" placeholder="Custom prefix (e.g., Server)">
+                        <span class="option-label">Custom name for configs</span>
+                    </label>
+                </div>
+                <div class="option-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeLocation">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Show geographic location (if available)</span>
+                    </label>
+                </div>
+                <div class="option-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="showDetails">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Show config details (IP, port, type)</span>
+                    </label>
+                </div>
+                <div class="option-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="autoExpand">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Auto-expand all cards</span>
+                    </label>
+                </div>
+            </div>
+
+            <p class="input-hint">💡 Supports JSON, Base64, and direct links</p>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+        
+        <div id="loadingIndicator" class="loading-indicator">
+            <div class="loading-spinner"></div>
+            <div class="loading-stages">
+                <p id="loadingStage">Fetching subscription...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsSection" class="results-section">
+            <div class="results-header">
+                <div class="results-info">
+                    <div class="count-badge">
+                        <span id="configCount" class="config-count">0</span>
+                        <span class="config-label">Configs</span>
+                    </div>
+                    <div class="stats">
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span id="processingTime">0ms</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button id="copyAllBtn" class="btn-copy-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span>Copy All</span>
+                    </button>
+                    <button id="exportBtn" class="btn-export">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                    <button id="expandAllBtn" class="btn-expand">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="17 11 12 6 7 11"></polyline>
+                            <polyline points="17 18 12 13 7 18"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter and Search -->
+            <div class="filter-section">
+                <div class="search-box">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search configs...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="ws">WebSocket</button>
+                    <button class="filter-btn" data-filter="grpc">gRPC</button>
+                    <button class="filter-btn" data-filter="tcp">TCP</button>
+                    <button class="filter-btn" data-filter="tls">TLS</button>
+                </div>
+            </div>
+
+            <div id="configsList" class="configs-list"></div>
+
+            <div class="results-footer">
+                <p class="footer-text">All configs converted successfully ✨</p>
+            </div>
+        </div>
+
+        <div class="toast" id="toast">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span id="toastMessage">Copied!</span>
+        </div>
+
+        <footer class="footer">
+            <p>Made with 💜 by <strong>Valtor</strong></p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Guide</a>
+                <span>•</span>
+                <a href="#" class="footer-link">Report Issue</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

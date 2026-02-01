@@ -1,0 +1,89 @@
+====================================
+  VLESS CONVERTER - cPanel Guide
+====================================
+
+STEP 1: Login to cPanel
+------------------------
+- Open your cPanel
+- Go to "File Manager"
+
+
+STEP 2: Navigate to public_html
+--------------------------------
+- Click on "public_html" folder
+- This is where your website files go
+
+
+STEP 3: Upload Files
+--------------------
+You need to upload these files:
+
+public_html/
+├── index.html          ← Main page
+├── api.php            ← Backend (handles conversion)
+├── .htaccess          ← Server config
+└── assets/
+    ├── css/
+    │   └── style.css  ← Styling
+    └── js/
+        └── script.js  ← JavaScript
+
+
+STEP 4: Create Folders First
+-----------------------------
+1. In public_html, create folder: "assets"
+2. Inside assets, create: "css" and "js"
+
+
+STEP 5: Upload Files
+--------------------
+1. Upload to public_html/:
+   - index.html
+   - api.php
+   - .htaccess
+
+2. Upload to public_html/assets/css/:
+   - style.css
+
+3. Upload to public_html/assets/js/:
+   - script.js
+
+
+STEP 6: Visit Your Website
+---------------------------
+Go to: https://yourdomain.com
+
+Done! ✅
+
+
+ALTERNATIVE: Install in Subfolder
+==================================
+
+If you want: yourdomain.com/converter
+
+1. Create folder in public_html: "converter"
+2. Upload all files to that folder
+3. Visit: https://yourdomain.com/converter
+
+
+COMMON ISSUES
+=============
+
+Q: Blank page?
+A: Check PHP version (needs 7.0+)
+
+Q: "Failed to fetch" error?
+A: Enable cURL in cPanel
+
+Q: Slow or timeout?
+A: Increase PHP limits in cPanel
+
+
+REQUIREMENTS
+============
+✓ PHP 7.0 or higher
+✓ cURL enabled
+✓ Sessions enabled
+
+
+Made with 💜 by Valtor
